@@ -1,0 +1,1 @@
+* DRY (Replace select+options inside with component. Pass array into this component. In this component, replace multiple option lines with v-for. It will be easier imho. Still, it will be more intense in terms of performance. Still, SSR will be able to fix it.)
