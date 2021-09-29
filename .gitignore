@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+src/assets/videos/DVD_screensaver.mp4
 
 # local env files
 .env.local
