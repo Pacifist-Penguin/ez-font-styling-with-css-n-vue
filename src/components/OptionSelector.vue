@@ -11,10 +11,11 @@ export default {
 	name: "OptionSelector",
 	created() {
 		this.$emit(`update:selected`, this.options[0]);
+		this.selectedOption = this.options[0];
 	},
 	data() {
 		return {
-			selectedOption: "1"
+			selectedOption: null
 		};
 	},
 	props: {
@@ -24,7 +25,7 @@ export default {
 		}
 	},
 	emits: {
-		selectedOption: () => typeof selectedOption === "string"
+		"update:selected": (selectedOption) => typeof selectedOption === "string"
 	},
 	watch: {
 		selectedOption: function (value) {

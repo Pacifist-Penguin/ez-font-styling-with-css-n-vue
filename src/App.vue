@@ -1,6 +1,9 @@
 <template>
-	<header>This tool allows u to easily configure ur fonts.</header>
+	<video autoplay muted loop id="myVideo">
+		<source src="@/assets/videos/DVD_screensaver.mp4" type="video/mp4" />
+	</video>
 	<main>
+		<header>This tool allows u to easily configure ur fonts.</header>
 		<div style="display: flex">
 			<textarea class="textArea" contenteditable="true" v-model="text" :style="styles"></textarea>
 			<style-display :styles="styles" />
@@ -10,81 +13,29 @@
 			<input v-model="fontSize" :min="fontSizeRange.min" :max="fontSizeRange.max" type="range" />
 			<div>Use VMin: <input v-model="ifResponsive" type="checkbox" name="ifResponsive" /></div>
 			<div>Font family:</div>
-			<select v-model="fontFamily">
-				<option value="serif">Serif</option>
-				<option value="sans-serif">Sans-serif</option>
-				<option value="monospace">Monospace</option>
-				<option value="cursive">Cursive</option>
-				<option value="fantasy">Fantasy</option>
-			</select>
+			<option-selector :options="options.fontFamily" v-model="fontFamily" />
 			<div>Font style:</div>
-			<select v-model="fontStyle">
-				<option value="normal">normal</option>
-				<option value="italic">italic</option>
-				<option value="oblique">oblique</option>
-				<option value="oblique 40deg">oblique 40 degree</option>
-			</select>
+			<option-selector :options="options.fontStyle" v-model="fontStyle" />
 			<div>Apply font-variant: <input v-model="smallCaps" type="checkbox" name="smallCaps" /></div>
 			<template v-if="smallCaps">
 				<div>Font Variant:</div>
-				<select v-model="fontVariant">
-					<option value="normal">normal</option>
-					<option value="italic">italic</option>
-					<option value="oblique">oblique</option>
-					<option value="oblique 40deg">oblique 40 degree</option>
-				</select>
+				<option-selector :options="options.fontVariant" v-model="fontVariant" />
 				<div>Font Variant Caps:</div>
-				<select v-model="fontVariantCaps">
-					<option value="normal">normal</option>
-					<option value="small-caps">small-caps</option>
-					<option value="all-small-caps">all-small-caps</option>
-					<option value="petite-caps">petite-caps</option>
-					<option value="all-petite-caps">all-petite-caps</option>
-					<option value="unicase">unicase</option>
-					<option value="titling-caps">titling-caps</option>
-				</select>
+				<option-selector :options="options.fontVariantCaps" v-model="fontVariantCaps" />
 			</template>
 			<div>Font weight:</div>
-			<select v-model="fontWeightInput">
-				<option value="normal">normal</option>
-				<option value="bold">bold</option>
-				<option value="bolder">bolder</option>
-				<option value="lighter">lighter</option>
-				<option value="number">number</option>
-				<option value="initial">initial</option>
-				<option value="inherit">inherit</option>
-			</select>
+			<option-selector :options="options.fontWeightInput" v-model="fontWeightInput" />
 			<input v-if="fontWeightInput === 'number'" v-model="fontWeightNumber" :min="1" :max="9" type="range" />
 			<div>Text decoration line:</div>
-			<select v-model="textDecorationLine">
-				<option value="none">none</option>
-				<option value="underline">underline</option>
-				<option value="overline">overline</option>
-				<option value="line-through">line-through</option>
-			</select>
+			<option-selector :options="options.textDecorationLine" v-model="textDecorationLine" />
 			<template v-if="textDecorationLine != 'none'">
 				<div>Text decoration color:</div>
 				<input v-model="textDecorationColor" type="color" />
 				<div>Text decoration style:</div>
-				<select v-model="textDecorationStyle">
-					<option value="initial">initial</option>
-					<option value="solid">solid</option>
-					<option value="double">double</option>
-					<option value="dotted">dotted</option>
-					<option value="dashed">dashed</option>
-					<option value="wavy">wavy</option>
-				</select>
+				<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
 			</template>
 			<!-- PLACE FOR TEXT SHADOW -->
-			<select v-model="textTransform">
-				<option value="none">none</option>
-				<option value="capitalize">capitalize</option>
-				<option value="uppercase">uppercase</option>
-				<option value="lowercase">lowercase</option>
-			</select>
-			<!-- test of component -->
-			<div>Test:</div>
-			<option-selector v-model:selected="test" :options="['1', '2', '3', '4']" />
+			<option-selector :options="options.textTransform" v-model="textTransform" />
 		</div>
 		<div></div>
 	</main>
@@ -93,7 +44,6 @@
 <script>
 import OptionSelector from "@/components/OptionSelector.vue";
 import StyleDisplay from "@/components/StyleDisplay.vue";
-
 export default {
 	name: "app",
 	components: {
@@ -102,6 +52,24 @@ export default {
 	},
 	data() {
 		return {
+			options: {
+				fontFamily: ["serif", "sans-serif", "monospace", "cursive", "fantasy"],
+				fontStyle: ["normal", "italic", "oblique", "oblique 40deg"],
+				fontVariant: ["normal", "italic", "oblique", "oblique 40deg"],
+				fontVariantCaps: [
+					"normal",
+					"small-caps",
+					"all-small-caps",
+					"petite-caps",
+					"all-petite-caps",
+					"unicase",
+					"titling-caps"
+				],
+				fontWeightInput: ["normal", "bold", "bolder", "lighter", "number", "initial", "inherit"],
+				textDecorationLine: ["none", "underline", "overline", "line-through"],
+				textDecorationStyle: ["initial", "solid", "double", "dotted", "dashed", "wavy"],
+				textTransform: ["none", "capitalize", "uppercase", "lowercase"]
+			},
 			text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 			ifResponsive: false,
 			fontFamily: "serif",
@@ -115,8 +83,7 @@ export default {
 			textDecorationLine: "none",
 			textDecorationColor: "#000000",
 			textDecorationStyle: "initial",
-			textTransform: "none",
-			test: "1"
+			textTransform: "none"
 		};
 	},
 	computed: {
@@ -160,16 +127,26 @@ export default {
 </script>
 
 <style>
+:root {
+	--primaryFontColor: whitesmoke;
+	--mainBackgroundColor: #2176ff93;
+	--textAreaBackgroundColor: #33a1fd;
+}
 body {
 	margin: 0px 0px 0px 0px;
-	background-color: #31393c;
 }
 main {
 	width: 90%;
 	height: 90%;
-	background-color: #2176ff;
-	margin: auto;
+	background-color: var(--mainBackgroundColor);
+	color: var(--primaryFontColor);
 	border-radius: 1vmin;
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2.5%;
 }
 main > * {
 	padding: 1vmin 1vmin 1vmin 1vmin;
@@ -180,6 +157,13 @@ textArea {
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
 	border: 0px;
-	background-color: #33a1fd;
+	background-color: var(--textAreaBackgroundColor);
+}
+#myVideo {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
 }
 </style>
