@@ -35,6 +35,12 @@
 				<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
 			</template>
 			<!-- PLACE FOR TEXT SHADOW -->
+			<div>Shadows count: <input min="0" v-model="shadowCount" type="number" /></div>
+			<div>
+				<text-shadow-config @styleEmitted="setShadow" :shadowCount="shadowCount" />
+			</div>
+			<!-- PLACE FOR TEXT SHADOW -->
+			<div>Text transform:</div>
 			<option-selector :options="options.textTransform" v-model="textTransform" />
 		</div>
 		<div></div>
@@ -44,11 +50,14 @@
 <script>
 import OptionSelector from "@/components/OptionSelector.vue";
 import StyleDisplay from "@/components/StyleDisplay.vue";
+import TextShadowConfig from "@/components/TextShadowConfig";
+
 export default {
 	name: "app",
 	components: {
 		OptionSelector,
-		StyleDisplay
+		StyleDisplay,
+		TextShadowConfig
 	},
 	data() {
 		return {
@@ -83,7 +92,11 @@ export default {
 			textDecorationLine: "none",
 			textDecorationColor: "#000000",
 			textDecorationStyle: "initial",
-			textTransform: "none"
+
+			shadows: {},
+
+			textTransform: "none",
+			shadowCount: 0
 		};
 	},
 	computed: {
@@ -114,13 +127,19 @@ export default {
 				fontWeight: this.fontWeight,
 				textDecorationLine: this.textDecorationLine,
 				textDecorationColor: this.textDecorationColor,
-				textDecorationStyle: this.textDecorationStyle
+				textDecorationStyle: this.textDecorationStyle,
+				textTransform: this.textTransform
 			};
 		}
 	},
 	watch: {
 		ifResponsive: function () {
 			this.fontSize = this.fontSizeRange.min;
+		}
+	},
+	methods: {
+		setShadow(val) {
+			this.shadows = val;
 		}
 	}
 };
