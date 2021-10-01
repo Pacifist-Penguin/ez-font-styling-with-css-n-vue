@@ -34,12 +34,10 @@
 				<div>Text decoration style:</div>
 				<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
 			</template>
-			<!-- PLACE FOR TEXT SHADOW -->
 			<div>Shadows count: <input min="0" v-model="shadowCount" type="number" /></div>
 			<div>
-				<text-shadow-config @styleEmitted="setShadow" :shadowCount="shadowCount" />
+				<text-shadow-config :useVmin="sizeMetric" @styleEmited="setShadow" :shadowCount="shadowCount" />
 			</div>
-			<!-- PLACE FOR TEXT SHADOW -->
 			<div>Text transform:</div>
 			<option-selector :options="options.textTransform" v-model="textTransform" />
 		</div>
@@ -92,9 +90,7 @@ export default {
 			textDecorationLine: "none",
 			textDecorationColor: "#000000",
 			textDecorationStyle: "initial",
-
-			shadows: {},
-
+			textShadows: "unset",
 			textTransform: "none",
 			shadowCount: 0
 		};
@@ -128,6 +124,7 @@ export default {
 				textDecorationLine: this.textDecorationLine,
 				textDecorationColor: this.textDecorationColor,
 				textDecorationStyle: this.textDecorationStyle,
+				textShadow: this.textShadows,
 				textTransform: this.textTransform
 			};
 		}
@@ -139,7 +136,7 @@ export default {
 	},
 	methods: {
 		setShadow(val) {
-			this.shadows = val;
+			this.textShadows = val;
 		}
 	}
 };
@@ -147,7 +144,7 @@ export default {
 
 <style>
 :root {
-	--primaryFontColor: whitesmoke;
+	--primaryFontColor: rgb(226, 226, 226);
 	--mainBackgroundColor: #2176ff93;
 	--textAreaBackgroundColor: #33a1fd;
 }
