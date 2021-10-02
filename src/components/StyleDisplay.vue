@@ -6,6 +6,9 @@
 <script>
 import hljs from "highlight.js/lib/core";
 import css from "highlight.js/lib/languages/css";
+import postcss from "postcss";
+import postcssJs from "postcss-js";
+
 hljs.registerLanguage("css", css);
 
 export default {
@@ -16,32 +19,30 @@ export default {
 			required: true
 		}
 	},
-	computed: {
-		stringifiedStyles() {
-			return JSON.stringify(this.styles);
-		},
-		removedQuotes() {
-			return this.stringifiedStyles.replace(/['"]+/g, "");
-		},
-		replacedComasWithSemiColumns() {
-			return this.removedQuotes.replace(/[',]+/g, "; \n");
-		},
-		convertedToKebabCase() {
-			return this.replacedComasWithSemiColumns
-				.replace(/((?<=[a-z\d])[A-Z]|(?<=[A-Z\d])[A-Z](?=[a-z]))/g, "-$1")
-				.toLowerCase();
-		},
-		highlightedStyle() {
-			return hljs.highlight(this.convertedToKebabCase, { language: "css" }).value;
+	data() {
+		return {
+			expirementalStyles: ""
+		};
+	},
+	methods: {
+		convert(style) {
+			postcss()
+				.process(style, { parser: postcssJs })
+				.then((result) => {
+					this.expirementalStyles = hljs.highlight(result.css, { language: "css" }).value;
+				});
 		}
 	},
 	watch: {
-		highlightedStyle: function () {
-			this.$refs.highlightedStyleContainer.innerHTML = this.highlightedStyle;
+		expirementalStyles: function () {
+			this.$refs.highlightedStyleContainer.innerHTML = this.expirementalStyles;
+		},
+		styles: function () {
+			this.expirementalStyles = this.convert(this.styles);
 		}
 	},
 	mounted() {
-		this.$refs.highlightedStyleContainer.innerHTML = this.highlightedStyle;
+		this.convert(this.styles);
 	}
 };
 </script>

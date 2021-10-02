@@ -12,6 +12,8 @@
 			<div>Font size</div>
 			<input v-model="fontSize" :min="fontSizeRange.min" :max="fontSizeRange.max" type="range" />
 			<div>Use VMin: <input v-model="ifResponsive" type="checkbox" name="ifResponsive" /></div>
+			<div>Font color:</div>
+			<input v-model="color" type="color" />
 			<div>Font family:</div>
 			<option-selector :options="options.fontFamily" v-model="fontFamily" />
 			<div>Font style:</div>
@@ -79,6 +81,7 @@ export default {
 			},
 			text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 			ifResponsive: false,
+			color: "#ffffff",
 			fontFamily: "serif",
 			fontSize: 16,
 			fontStyle: "normal",
@@ -115,6 +118,7 @@ export default {
 		},
 		styles() {
 			return {
+				color: this.color,
 				fontSize: this.fontSize + this.sizeMetric,
 				fontFamily: this.fontFamily,
 				fontStyle: this.fontStyle,
