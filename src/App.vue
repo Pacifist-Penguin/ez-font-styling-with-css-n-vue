@@ -3,7 +3,9 @@
 		<source src="@/assets/videos/DVD_screensaver.mp4" type="video/mp4" />
 	</video>
 	<main>
-		<header>This tool allows u to easily configure ur fonts.</header>
+		<header>
+			This tool allows u to easily configure ur fonts. It's not inteneded to mindlessly copypaste styles.
+		</header>
 		<div style="display: flex">
 			<textarea class="textArea" contenteditable="true" v-model="text" :style="styles"></textarea>
 			<style-display :styles="styles" />
@@ -14,6 +16,12 @@
 			<div>Use VMin: <input v-model="ifResponsive" type="checkbox" name="ifResponsive" /></div>
 			<div>Font color:</div>
 			<input v-model="color" type="color" />
+			<div>
+				Do u want to use exact font? (if set, font family will be fall-back option) Only preinstalled fonts on
+				ur device would work here.
+				<input v-model="ifExactFontNeeded" placeholder="Arial" type="checkbox" name="fontName" />
+			</div>
+			<input v-if="ifExactFontNeeded" type="string" v-model="exactFontName" />
 			<div>Font family:</div>
 			<option-selector :options="options.fontFamily" v-model="fontFamily" />
 			<div>Font style:</div>
@@ -82,6 +90,8 @@ export default {
 			text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
 			ifResponsive: false,
 			color: "#ffffff",
+			ifExactFontNeeded: false,
+			exactFontName: "",
 			fontFamily: "serif",
 			fontSize: 16,
 			fontStyle: "normal",
@@ -116,11 +126,18 @@ export default {
 		fontWeight() {
 			return this.fontWeightInput === "number" ? this.fontWeightNumber * 100 : this.fontWeightInput;
 		},
+		exactFontFamily() {
+			let returnVal = this.fontFamily;
+			if (this.exactFontName.length > 0) {
+				returnVal = [this.exactFontName, this.fontFamily].join(", ");
+			}
+			return returnVal;
+		},
 		styles() {
 			return {
 				color: this.color,
 				fontSize: this.fontSize + this.sizeMetric,
-				fontFamily: this.fontFamily,
+				fontFamily: this.exactFontFamily,
 				fontStyle: this.fontStyle,
 				fontVariant: this.fontVariant,
 				fontVariantCaps: this.fontVariantCaps,
