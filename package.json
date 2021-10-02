@@ -11,6 +11,7 @@
 		"@highlightjs/vue-plugin": "^2.1.0",
 		"core-js": "^3.17.3",
 		"highlight.js": "^11.2.0",
+		"postcss-js": "^3.0.3",
 		"vue": "^3.2.11"
 	},
 	"devDependencies": {
