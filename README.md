@@ -1,4 +1,4 @@
-# backgammon-vue
+# EzFontStylingWithCSSnVue 
 
 ## Project setup
 

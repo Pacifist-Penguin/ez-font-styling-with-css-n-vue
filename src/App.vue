@@ -7,51 +7,72 @@
 			This tool allows u to easily configure ur fonts. It's not inteneded to mindlessly copypaste styles.
 		</header>
 		<div style="display: flex">
-			<textarea class="textArea" contenteditable="true" v-model="text" :style="styles"></textarea>
+			<textarea
+				spellcheck="false"
+				class="textArea"
+				contenteditable="true"
+				v-model="text"
+				:style="styles"
+			></textarea>
 			<style-display :styles="styles" />
 		</div>
-		<div>
-			<div>Font size</div>
-			<input v-model="fontSize" :min="fontSizeRange.min" :max="fontSizeRange.max" type="range" />
-			<div>Use VMin: <input v-model="ifResponsive" type="checkbox" name="ifResponsive" /></div>
-			<div>Font color:</div>
-			<input v-model="color" type="color" />
-			<div>
-				Do u want to use exact font? (if set, font family will be fall-back option) Only preinstalled fonts on
-				ur device would work here.
-				<input v-model="ifExactFontNeeded" placeholder="Arial" type="checkbox" name="fontName" />
+		<div class="settings">
+			<div class="column">
+				<div>
+					Font size
+					<input v-model="fontSize" :min="fontSizeRange.min" :max="fontSizeRange.max" type="range" />
+				</div>
+				<div>Use VMin: <input v-model="ifResponsive" type="checkbox" name="ifResponsive" /></div>
+				<div>Font color: <input v-model="color" type="color" /></div>
+				<div>
+					Do u want to use exact font? (if set, font family will be fall-back option) Only preinstalled fonts
+					on ur device would work here.
+					<input v-model="ifExactFontNeeded" placeholder="Arial" type="checkbox" name="fontName" />
+				</div>
+				<input v-if="ifExactFontNeeded" type="string" placeholder="Courier New" v-model="exactFontName" />
+				<div>Font family: <option-selector :options="options.fontFamily" v-model="fontFamily" /></div>
+				<div>Font style: <option-selector :options="options.fontStyle" v-model="fontStyle" /></div>
+				<div>
+					Apply font-variant: <input v-model="smallCaps" type="checkbox" name="smallCaps" />
+					<template v-if="smallCaps">
+						<div>Font Variant:</div>
+						<option-selector :options="options.fontVariant" v-model="fontVariant" />
+						<div>Font Variant Caps:</div>
+						<option-selector :options="options.fontVariantCaps" v-model="fontVariantCaps" />
+					</template>
+				</div>
 			</div>
-			<input v-if="ifExactFontNeeded" type="string" v-model="exactFontName" />
-			<div>Font family:</div>
-			<option-selector :options="options.fontFamily" v-model="fontFamily" />
-			<div>Font style:</div>
-			<option-selector :options="options.fontStyle" v-model="fontStyle" />
-			<div>Apply font-variant: <input v-model="smallCaps" type="checkbox" name="smallCaps" /></div>
-			<template v-if="smallCaps">
-				<div>Font Variant:</div>
-				<option-selector :options="options.fontVariant" v-model="fontVariant" />
-				<div>Font Variant Caps:</div>
-				<option-selector :options="options.fontVariantCaps" v-model="fontVariantCaps" />
-			</template>
-			<div>Font weight:</div>
-			<option-selector :options="options.fontWeightInput" v-model="fontWeightInput" />
-			<input v-if="fontWeightInput === 'number'" v-model="fontWeightNumber" :min="1" :max="9" type="range" />
-			<div>Text decoration line:</div>
-			<option-selector :options="options.textDecorationLine" v-model="textDecorationLine" />
-			<template v-if="textDecorationLine != 'none'">
-				<div>Text decoration color:</div>
-				<input v-model="textDecorationColor" type="color" />
-				<div>Text decoration style:</div>
-				<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
-			</template>
-			<div>Shadows count: <input min="0" v-model="shadowCount" type="number" /></div>
-			<div>
-				<text-shadow-config :useVmin="sizeMetric" @styleEmited="setShadow" :shadowCount="shadowCount" />
+			<div class="column">
+				<div>
+					Font weight:
+					<option-selector :options="options.fontWeightInput" v-model="fontWeightInput" />
+					<input
+						v-if="fontWeightInput === 'number'"
+						v-model="fontWeightNumber"
+						:min="1"
+						:max="9"
+						type="range"
+					/>
+				</div>
+				<div>
+					Text decoration line:
+					<option-selector :options="options.textDecorationLine" v-model="textDecorationLine" />
+					<template v-if="textDecorationLine != 'none'">
+						<div>Text decoration color:</div>
+						<input v-model="textDecorationColor" type="color" />
+						<div>Text decoration style:</div>
+						<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
+					</template>
+				</div>
+				<div>
+					Shadows count: <input min="0" v-model="shadowCount" type="number" />
+					<div>
+						<text-shadow-config :useVmin="sizeMetric" @styleEmited="setShadow" :shadowCount="shadowCount" />
+					</div>
+				</div>
+				<div>Text transform: <option-selector :options="options.textTransform" v-model="textTransform" /></div>
 			</div>
-			<div>Text transform:</div>
-			<option-selector :options="options.textTransform" v-model="textTransform" />
 		</div>
-		<div></div>
 	</main>
 </template>
 
@@ -174,7 +195,7 @@ body {
 }
 main {
 	width: 90%;
-	height: 90%;
+	min-height: 90%;
 	background-color: var(--mainBackgroundColor);
 	color: var(--primaryFontColor);
 	border-radius: 1vmin;
@@ -184,6 +205,7 @@ main {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 2.5%;
+	margin-bottom: 2.5%;
 }
 main > * {
 	padding: 1vmin 1vmin 1vmin 1vmin;
@@ -202,5 +224,12 @@ textArea {
 	bottom: 0;
 	min-width: 100%;
 	min-height: 100%;
+}
+.settings {
+	display: flex;
+	width: 100%;
+}
+.column {
+	width: 50%;
 }
 </style>
