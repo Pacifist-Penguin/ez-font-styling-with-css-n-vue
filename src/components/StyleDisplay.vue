@@ -46,13 +46,11 @@ export default {
 	}
 };
 </script>
-<style>
+<style scoped>
 .copyStyles {
 	width: 50%;
 	background-color: #0664b1;
 	white-space: pre-wrap;
-}
-.copyStyles > .hljs-attribute {
-	margin-left: 3vmin;
+	padding-left: 3vmin;
 }
 </style>

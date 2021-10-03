@@ -1,8 +1,8 @@
 <template>
-	<div v-for="(shadow, index) in shadowCount" :key="index">
-		<input v-model="arrayOfShadows[index].XOffset" type="number" placeholder="x-offset" />
-		<input v-model="arrayOfShadows[index].YOffset" type="number" placeholder="y-offset" />
-		<input v-model="arrayOfShadows[index].blurRadius" type="number" placeholder="blur radius" />
+	<div class="parentElement" v-for="(shadow, index) in shadowCount" :key="index">
+		<input class="inputNumber" v-model="arrayOfShadows[index].XOffset" type="number" placeholder="x-offset" />
+		<input class="inputNumber" v-model="arrayOfShadows[index].YOffset" type="number" placeholder="y-offset" />
+		<input class="inputNumber" v-model="arrayOfShadows[index].blurRadius" type="number" placeholder="blur radius" />
 		<input v-model="arrayOfShadows[index].color" type="color" placeholder="color" />
 	</div>
 </template>
@@ -77,3 +77,13 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+.inputNumber {
+	width: 5vmin;
+}
+.parentElement {
+	justify-content: center;
+	display: flex;
+}
+</style>
