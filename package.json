@@ -1,8 +1,8 @@
 {
-	"name": "text-style-configurator",
+	"name": "ez-font-styling-with-css-n-vue",
 	"version": "0.1.0",
 	"private": true,
-	"license": "BSD-3-Clause",
+	"license": "AGPL-3.0-or-later",
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
