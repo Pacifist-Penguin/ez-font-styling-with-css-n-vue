@@ -1,7 +1,4 @@
 <template>
-	<video autoplay muted loop id="myVideo">
-		<source src="@/assets/videos/DVD_screensaver.mp4" type="video/mp4" />
-	</video>
 	<main>
 		<header>
 			This tool allows u to easily configure ur fonts. It's not inteneded to mindlessly copypaste styles.
