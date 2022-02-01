@@ -53,15 +53,21 @@ export default {
 	},
 	watch: {
 		shadowCount: function (state, prevState) {
+			const diff = state - prevState;
+
 			if (state > prevState) {
-				this.arrayOfShadows.push({
-					XOffset: 0,
-					YOffset: 0,
-					blurRadius: 0,
-					color: "#ffffff"
-				});
+				for (let i = 0; i < diff; i++) {
+					this.arrayOfShadows.push({
+						XOffset: 0,
+						YOffset: 0,
+						blurRadius: 0,
+						color: "#ffffff"
+					});
+				}
 			} else {
-				this.arrayOfShadows.pop();
+				for (let i = 0; i > diff; i--) {
+					this.arrayOfShadows.pop();
+				}
 			}
 		},
 		style: function () {
