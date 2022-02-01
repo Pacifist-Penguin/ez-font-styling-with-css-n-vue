@@ -1,5 +1,7 @@
 # EzFontStylingWithCSSnVue 
 
+This tool allows you to easily configure ur fonts. It's not inteneded to mindlessly copypaste styles.
+
 ## Project setup
 
 ```

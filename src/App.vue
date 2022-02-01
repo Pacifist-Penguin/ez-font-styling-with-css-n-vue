@@ -1,18 +1,9 @@
 <template>
+	<header><style-display :styles="styles" /></header>
 	<main>
-		<header>
-			This tool allows u to easily configure ur fonts. It's not inteneded to mindlessly copypaste styles.
-		</header>
-		<div style="display: flex">
-			<textarea
-				spellcheck="false"
-				class="textArea"
-				contenteditable="true"
-				v-model="text"
-				:style="styles"
-			></textarea>
-			<style-display :styles="styles" />
-		</div>
+		<textarea spellcheck="false" class="textArea" contenteditable="true" v-model="text" :style="styles"></textarea>
+	</main>
+	<footer>
 		<div class="settings">
 			<div class="column">
 				<div>
@@ -61,7 +52,7 @@
 						<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
 					</template>
 				</div>
-				<div>
+				<div class="shadowCount">
 					Shadows count: <input min="0" v-model="shadowCount" type="number" />
 					<div>
 						<text-shadow-config :useVmin="sizeMetric" @styleEmited="setShadow" :shadowCount="shadowCount" />
@@ -70,7 +61,7 @@
 				<div>Text transform: <option-selector :options="options.textTransform" v-model="textTransform" /></div>
 			</div>
 		</div>
-	</main>
+	</footer>
 </template>
 
 <script>
@@ -183,8 +174,7 @@ export default {
 
 <style>
 :root {
-	--primaryFontColor: rgb(226, 226, 226);
-	--mainBackgroundColor: #2176ff93;
+	--primaryFontColor: #e2e2e2;
 	--textAreaBackgroundColor: #33a1fd;
 }
 body {
@@ -193,10 +183,8 @@ body {
 main {
 	width: 90%;
 	min-height: 90%;
-	background-color: var(--mainBackgroundColor);
 	color: var(--primaryFontColor);
 	border-radius: 1vmin;
-	position: absolute;
 	left: 0;
 	right: 0;
 	margin-left: auto;
@@ -208,19 +196,14 @@ main > * {
 	padding: 1vmin 1vmin 1vmin 1vmin;
 }
 textArea {
-	width: 50%;
-	height: 40vh;
+	width: 100%;
+	height: 80vh;
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
+	border-radius: 1vmin;
 	border: 0px;
 	background-color: var(--textAreaBackgroundColor);
-}
-#myVideo {
-	position: fixed;
-	right: 0;
-	bottom: 0;
-	min-width: 100%;
-	min-height: 100%;
+	text-align: center;
 }
 .settings {
 	display: flex;
@@ -228,5 +211,26 @@ textArea {
 }
 .column {
 	width: 50%;
+	margin-left: 2rem;
+	margin-right: 2rem;
+	text-align: right;
+}
+.column + .column {
+	text-align: left;
+}
+.shadowCount {
+	max-height: 10vmin;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+footer {
+	bottom: 0;
+	position: absolute;
+	margin: 0 auto;
+	background-color: #ffffff99;
+	margin-left: 10rem;
+	margin-right: 10rem;
+	border-radius: 1vmin;
+	padding: 1vmin;
 }
 </style>

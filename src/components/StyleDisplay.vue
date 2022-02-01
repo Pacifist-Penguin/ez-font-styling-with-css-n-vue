@@ -48,9 +48,19 @@ export default {
 </script>
 <style scoped>
 .copyStyles {
-	width: 50%;
-	background-color: #0664b1;
+	width: max(25%, 16rem);
+	border-radius: 2vmin;
+	background-color: #0664b170;
 	white-space: pre-wrap;
 	padding-left: 3vmin;
+	padding-bottom: 1rem;
+	right: 0;
+	bottom: 25vmin;
+	z-index: 2;
+	position: absolute;
+}
+
+.copyStyles:hover {
+	background-color: #0664b1;
 }
 </style>
