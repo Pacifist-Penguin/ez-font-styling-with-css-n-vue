@@ -102,7 +102,7 @@ export default {
 			ifExactFontNeeded: false,
 			exactFontName: "",
 			fontFamily: "serif",
-			fontSize: 16,
+			fontSize: 72,
 			fontStyle: "normal",
 			smallCaps: false,
 			fontVariant: "normal",
@@ -174,11 +174,15 @@ export default {
 
 <style>
 :root {
-	--primaryFontColor: #e2e2e2;
-	--textAreaBackgroundColor: #33a1fd;
+	--primaryFontColor: #f8f8f2;
+	--textAreaBackgroundColor: #282a36;
+	--bodyBackgroundColor: #44475a;
+	--settingsColor: #6272a4;
 }
 body {
 	margin: 0px 0px 0px 0px;
+	color: var(--primaryFontColor);
+	background-color: var(--bodyBackgroundColor);
 }
 main {
 	width: 90%;
@@ -208,6 +212,7 @@ textArea {
 .settings {
 	display: flex;
 	width: 100%;
+	background-color: var(--settingsColor);
 }
 .column {
 	width: 50%;
@@ -227,7 +232,6 @@ footer {
 	bottom: 0;
 	position: absolute;
 	margin: 0 auto;
-	background-color: #ffffff99;
 	margin-left: 10rem;
 	margin-right: 10rem;
 	border-radius: 1vmin;
