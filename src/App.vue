@@ -1,80 +1,101 @@
 <template>
-	<header><style-display :styles="styles" /></header>
-	<main>
-		<textarea spellcheck="false" class="textArea" contenteditable="true" v-model="text" :style="styles"></textarea>
-	</main>
-	<footer>
-		<div class="settings">
-			<div class="column">
-				<div>
-					Font size
-					<input v-model="fontSize" :min="fontSizeRange.min" :max="fontSizeRange.max" type="range" />
-				</div>
-				<div>Use VMin: <input v-model="ifResponsive" type="checkbox" name="ifResponsive" /></div>
-				<div>Font color: <input v-model="color" type="color" /></div>
-				<div>
-					Do u want to use exact font? (if set, font family will be fall-back option) Only preinstalled fonts
-					on ur device would work here.
-					<input v-model="ifExactFontNeeded" placeholder="Arial" type="checkbox" name="fontName" />
-				</div>
-				<input v-if="ifExactFontNeeded" type="string" placeholder="Courier New" v-model="exactFontName" />
-				<div>Font family: <option-selector :options="options.fontFamily" v-model="fontFamily" /></div>
-				<div>Font style: <option-selector :options="options.fontStyle" v-model="fontStyle" /></div>
-				<div>
-					Apply font-variant: <input v-model="smallCaps" type="checkbox" name="smallCaps" />
-					<template v-if="smallCaps">
-						<div>Font Variant:</div>
-						<option-selector :options="options.fontVariant" v-model="fontVariant" />
-						<div>Font Variant Caps:</div>
-						<option-selector :options="options.fontVariantCaps" v-model="fontVariantCaps" />
-					</template>
-				</div>
-			</div>
-			<div class="column">
-				<div>
-					Font weight:
-					<option-selector :options="options.fontWeightInput" v-model="fontWeightInput" />
-					<input
-						v-if="fontWeightInput === 'number'"
-						v-model="fontWeightNumber"
-						:min="1"
-						:max="9"
-						type="range"
-					/>
-				</div>
-				<div>
-					Text decoration line:
-					<option-selector :options="options.textDecorationLine" v-model="textDecorationLine" />
-					<template v-if="textDecorationLine != 'none'">
-						<div>Text decoration color:</div>
-						<input v-model="textDecorationColor" type="color" />
-						<div>Text decoration style:</div>
-						<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
-					</template>
-				</div>
-				<div class="shadowCount">
-					Shadows count: <input min="0" v-model="shadowCount" type="number" />
+	<modal-animated @mousedown.self="showStyles = !showStyles" v-if="showStyles">
+		<style-display :styles="styles" />
+	</modal-animated>
+	<div>
+		<main>
+			<textarea
+				spellcheck="false"
+				class="textArea"
+				contenteditable="true"
+				v-model="text"
+				:style="styles"
+			></textarea>
+		</main>
+		<footer>
+			<div class="settings">
+				<div class="column">
 					<div>
-						<text-shadow-config :useVmin="sizeMetric" @styleEmited="setShadow" :shadowCount="shadowCount" />
+						Font size
+						<input v-model="fontSize" :min="fontSizeRange.min" :max="fontSizeRange.max" type="range" />
+					</div>
+					<div>Use VMin: <input v-model="ifResponsive" type="checkbox" name="ifResponsive" /></div>
+					<div>Font color: <input v-model="color" type="color" /></div>
+					<div>
+						Do u want to use exact font? (if set, font family will be fall-back option) Only preinstalled
+						fonts on ur device would work here.
+						<input v-model="ifExactFontNeeded" placeholder="Arial" type="checkbox" name="fontName" />
+					</div>
+					<input v-if="ifExactFontNeeded" type="string" placeholder="Courier New" v-model="exactFontName" />
+					<div>Font family: <option-selector :options="options.fontFamily" v-model="fontFamily" /></div>
+					<div>Font style: <option-selector :options="options.fontStyle" v-model="fontStyle" /></div>
+					<div>
+						Apply font-variant: <input v-model="smallCaps" type="checkbox" name="smallCaps" />
+						<template v-if="smallCaps">
+							<div>Font Variant:</div>
+							<option-selector :options="options.fontVariant" v-model="fontVariant" />
+							<div>Font Variant Caps:</div>
+							<option-selector :options="options.fontVariantCaps" v-model="fontVariantCaps" />
+						</template>
 					</div>
 				</div>
-				<div>Text transform: <option-selector :options="options.textTransform" v-model="textTransform" /></div>
+				<div class="column">
+					<div>
+						Font weight:
+						<option-selector :options="options.fontWeightInput" v-model="fontWeightInput" />
+						<input
+							v-if="fontWeightInput === 'number'"
+							v-model="fontWeightNumber"
+							:min="1"
+							:max="9"
+							type="range"
+						/>
+					</div>
+					<div>
+						Text decoration line:
+						<option-selector :options="options.textDecorationLine" v-model="textDecorationLine" />
+						<template v-if="textDecorationLine != 'none'">
+							<div>Text decoration color:</div>
+							<input v-model="textDecorationColor" type="color" />
+							<div>Text decoration style:</div>
+							<option-selector :options="options.textDecorationStyle" v-model="textDecorationStyle" />
+						</template>
+					</div>
+					<div class="shadowCount">
+						Shadows count: <input min="0" v-model="shadowCount" type="number" />
+						<div>
+							<text-shadow-config
+								:useVmin="sizeMetric"
+								@styleEmited="setShadow"
+								:shadowCount="shadowCount"
+							/>
+						</div>
+					</div>
+					<div>
+						Text transform: <option-selector :options="options.textTransform" v-model="textTransform" />
+					</div>
+				</div>
 			</div>
-		</div>
-	</footer>
+			<material-button class="wideButton" @click="showStyles = !showStyles">Compile</material-button>
+		</footer>
+	</div>
 </template>
 
 <script>
 import OptionSelector from "@/components/OptionSelector.vue";
 import StyleDisplay from "@/components/StyleDisplay.vue";
 import TextShadowConfig from "@/components/TextShadowConfig";
+import MaterialButton from "@/components/MaterialButton";
+import ModalAnimated from "@/components/ModalAnimated";
 
 export default {
 	name: "app",
 	components: {
 		OptionSelector,
 		StyleDisplay,
-		TextShadowConfig
+		TextShadowConfig,
+		MaterialButton,
+		ModalAnimated
 	},
 	data() {
 		return {
@@ -114,7 +135,8 @@ export default {
 			textDecorationStyle: "initial",
 			textShadows: "unset",
 			textTransform: "none",
-			shadowCount: 0
+			shadowCount: 0,
+			showStyles: false
 		};
 	},
 	computed: {
@@ -201,7 +223,7 @@ main > * {
 }
 textArea {
 	width: 100%;
-	height: 80vh;
+	height: 45vh;
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
 	border-radius: 1vmin;
@@ -209,10 +231,20 @@ textArea {
 	background-color: var(--textAreaBackgroundColor);
 	text-align: center;
 }
+
+footer {
+	background-color: var(--settingsColor);
+}
+
+.wideButton {
+	width: 100%;
+	height: 4rem;
+	font-size: 3rem;
+}
+
 .settings {
 	display: flex;
 	width: 100%;
-	background-color: var(--settingsColor);
 }
 .column {
 	width: 50%;
@@ -226,15 +258,28 @@ textArea {
 .shadowCount {
 	max-height: 10vmin;
 	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.2);
 }
 footer {
-	bottom: 0;
-	position: absolute;
 	margin: 0 auto;
 	margin-left: 10rem;
 	margin-right: 10rem;
 	border-radius: 1vmin;
 	padding: 1vmin;
+}
+@media only screen and (max-width: 768px) {
+	footer {
+		margin: 0;
+	}
+	.column {
+		width: 100%;
+		text-align: unset;
+		margin-inline: 0;
+	}
+	.column + .column {
+		text-align: unset;
+	}
+	.settings {
+		display: block;
+	}
 }
 </style>
